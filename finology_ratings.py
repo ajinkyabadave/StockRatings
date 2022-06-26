@@ -38,21 +38,31 @@ sectors_list = []
 finology_base_url = 'https://ticker.finology.in'
 sectors_url = finology_base_url + '/sector'
 
-soup = BeautifulSoup(opener.open(sectors_url,timeout=10).read() , 'html5lib')
+soup = BeautifulSoup(opener.open(sectors_url,timeout=10).read() , 'html.parser')
 cards = soup.find('div', {'class': 'card cardscreen cardsmall'}).findAll('a')
 
 
 print(cards)
+company_urls = []
 for card in cards:
     sectors_list.append(finology_base_url + card['href'])
 
 for sector in sectors_list:
     print(sector)
-    soup = BeautifulSoup(opener.open(sector,timeout=10).read(), 'html5lib')
-    # print(soup.findAll('table',{'id':'companylist'}).find('tbody'))
-    if soup.find('tbody') is not None and soup.find('tbody').findAll('tr'):
-     is not None and soup.find('tbody').findAll('td').find('a') is not None:
-        stocks_list.append( finology_base_url + soup.find('tbody').findAll('td').find('a'))
+    company_urls = []
+    soup = BeautifulSoup(opener.open(sector,timeout=10).read(), 'html.parser')
+    link_tags = soup.findAll('table')[0].findAll('a')
+    for link in link_tags:
+        company_urls.append(link['href'])
 
-
+for url in company_urls:
+    stocks_list.append(finology_base_url + url)
 print(stocks_list)       
+
+
+soup = BeautifulSoup(opener.open("https://ticker.finology.in/company/WENDT",timeout=10).read() , 'html.parser')
+overall_rating = soup.find('span',{'id':'mainContent_ltrlOverAllRating'})['style'].split(":")[1].replace(";","")
+management_rating =  soup.find('div',{'id':'mainContent_ManagementRating'})['style'].split(":")[1].replace(";","")
+valuation_rating = soup.find('div',{'id':'mainContent_ValuationRating'})['style'].split(":")[1].replace(";","")
+efficiency_rating = soup.find('div',{'id':'mainContent_EfficiencyRating'})['style'].split(":")[1].replace(";","")
+financials_rating = soup.find('div',{'id':'mainContent_FinancialsRating'})['style'].split(":")[1].replace(";","")
