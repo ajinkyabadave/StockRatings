@@ -48,8 +48,8 @@ for process in threads:
 
 # commetning for testing parallel api calls
 
-# c.execute('''CREATE TABLE IF NOT EXISTS money_control_ratings
-#     (stock_code varchar[50], url varchar[1000], name varchar[1000], rating int);''')
+c.execute('''CREATE TABLE IF NOT EXISTS money_control_ratings
+    (stock_code varchar[50], url varchar[1000], name varchar[1000], rating int);''')
 
 # for stock in stocks_list:
 # c.execute("INSERT INTO money_control_ratings VALUES (?,?,?,?)", (stock['stock_code'],stock['url'],stock['name'],stock['rating']))
